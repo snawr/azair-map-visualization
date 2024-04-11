@@ -7,6 +7,8 @@ import re
 from airport_codes import get_airport_coordinates
 from map_main import createMap, createPin, displayMap
 
+global script_directory
+script_directory = pathlib.Path().absolute()
 
 def extract_data(element):
     flights_data = element.text.strip().split('\n')
@@ -41,7 +43,7 @@ def split_data(data):
 
 def writeToCsv(data):
     csv_headers = ['ThereDepartureDate', 'ThereDepartureTime', 'ThereDepartureCity', 'ThereDepartureCode', 'ThereArrivalTime', 'ThereArrivalCity', 'ThereArrivalCode', 'ThereDuration', 'ThereChanges', 'BackDepartureDate', 'BackDepartureTime', 'BackDepartureCity', 'BackDepartureCode', 'BackArrivalTime', 'BackArrivalCity', 'BackArrivalCode', 'BackDuration', 'BackChanges', 'Total Price', 'LenghtOfStay']
-    with open(r'C:\Users\snawr\Desktop\Python\Flights_web_scraping/flights_data.csv', 'w', encoding='UTF8') as csvfile:
+    with open(f'{script_directory}/flights_data.csv', 'w', encoding='UTF8') as csvfile:
         writer = csv.writer(csvfile)
         writer.writerow(csv_headers)
 
@@ -71,7 +73,7 @@ def draw_destinations(data_dict):
             unique.append(arrival_city)
     print(unique)
 
-script_directory = pathlib.Path().absolute()
+
 options = webdriver.ChromeOptions()
 options.add_argument(f"user-data-dir={script_directory}\\userdata")
 driver = webdriver.Chrome(options=options)
